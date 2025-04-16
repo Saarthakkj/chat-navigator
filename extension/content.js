@@ -41,8 +41,15 @@ async function waitforelement(tagName){
 	//---------Synchrnously handling all the existing chats-----------
 	const childnodeTraversal = targetElement.querySelectorAll("*");
 	childnodeTraversal.forEach( (chats) =>{
-		if(chats.className === "whitespace-pre-wrap"){:w
-			addRow(index + ". " + chats.innerHTML.substring(0, 5);		
+		if(chats.className === "whitespace-pre-wrap"){
+			try{
+				chats.id = `index-${index}`
+				addRow(index + ". " + chats.innerHTML.substring(0, 12) , chats.id);	
+				console.log("cjats id : " , chats.id);
+				index++;
+			}catch(e){
+				console.log("error adding id and passing it in addRow : " , e);
+			}
 		}
 	});
 
@@ -82,7 +89,8 @@ function callback(mutationList , observer){
 						console.log("chat : " , chat);
 						if(chat.className === "whitespace-pre-wrap"){
 							console.log("chat text that matters : " , chat.innerHTML);
-							addRow(index + ". " + chat.innerHTML.slice(0 , 7));
+							chats.id = `index-${index}`;
+							addRow(index + ". " + chat.innerHTML.slice(0 , 12) , chats.id);
 							index++; 
 						}
 						//console.log("chat-text : " , chat.innerHTML );
@@ -114,7 +122,7 @@ function callback(mutationList , observer){
 
 //------------- Div creation for chat side bar (can run synchronously with content.js) ---
 
-const chat_sidebar = document.createElement("table"); 
+var chat_sidebar = document.createElement("table"); 
 chat_sidebar.id = "chat"; 
 chat_sidebar.textContent = "side-bar for chat"
 chat_sidebar.style.color = "black"
@@ -126,19 +134,21 @@ chat_sidebar.style.right = "10px" ;
 chat_sidebar.style.top = "50px" ;
 chat_sidebar.style.zIndex = "1000" ; //high enough to be in top of other elements
 
-chat_sidebar.style.backgroundColor = "" ; 
-chat_sidebar.style.padding = "15px";
-chat_sidebar.style.border = "1px solid black"  ;
+chat_sidebar.style.backgroundColor = "grey" ; 
+chat_sidebar.style.padding = "50px";
+chat_sidebar.style.border = "100 solid black"  ;
 
 
-function addRow(rowData) {
+function addRow(rowData , id) {
 	const chat_sidebar = document.getElementById('chat') ;
 	if(chat_sidebar){
 		const newRow = chat_sidebar.insertRow();
 		const cell = newRow.insertCell();
-		cell.textContent = rowData;
+		//cell.textContent = rowData;
 		cell.style.border = "1px solid black"; 
 		cell.style.padding = "8px" ;
+		//cell.href = '#'+id;
+		cell.innerHTML = `<a href="#${id}">${rowData}</a>`;
 	}
 	else{
 		console.error("chat siderbar div element not found"); 
@@ -149,7 +159,7 @@ function addRow(rowData) {
 let isDragging = false;
 let offsetX , offsetY ;
 
-
+/*
 // ----  mouse down : start dragging --- 
 
 chat_sidebar.addEventListener('mousedown' , (e) => {
@@ -187,7 +197,8 @@ chat_sidebar.addEventListener('selectStart' , (e) =>{
 	e.preventDefault();
 });
 
-
+*/
+console.log("added chatside bar") ;
 document.body.appendChild(chat_sidebar) ; 
 // addRow("1. hello world"); --test function call 
 
