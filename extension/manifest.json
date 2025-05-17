@@ -1,16 +1,24 @@
 {
   "manifest_version": 3,
-  "name": "Chat side bar for LLM chat applications",
+  "name": "Chat Navigtator",
   "version": "1.0",
   "description": "Injects a custom div onto pages, accesses the page URL, and interacts with existing div elements.",
 
-  "permissions": ["tabs"],
+  "permissions": [
+    "tabs",
+    "storage"
+  ],
 
   "host_permissions": [
    "https://*.google.com/*" ],
   "content_scripts": [
     {
-     "matches": ["https://chatgpt.com/*"],
+     "matches": [
+       "https://chat.openai.com/*",
+       "https://chatgpt.com/*",
+       "https://claude.ai/*",
+       "https://*.perplexity.ai/*"
+     ],
      "css": ["style.css"],
       "js": ["content.js"],
       "run_at": "document_idle"

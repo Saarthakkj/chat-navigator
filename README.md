@@ -1,36 +1,59 @@
 # Chat Navigator
 
 ## Overview
-Chat Navigator is a browser extension that enhances your experience with LLM chat applications by creating a navigable sidebar that indexes all conversation messages. This makes it easier to find and jump to specific parts of long conversations.
+Chat Navigator is a browser extension designed to enhance the user experience of LLM chat applications by providing an interactive navigation sidebar. The extension automatically indexes conversation messages and enables quick navigation through long chat histories.
 
 ## Features
-- **Automatic Message Indexing**: Automatically detects and indexes messages in the chat interface
-- **Quick Navigation**: Provides clickable links to jump directly to specific messages
-- **Real-time Updates**: Dynamically updates as new messages appear in the conversation
-- **Unobtrusive Design**: Sits in a movable sidebar that doesn't interfere with the main chat interface
+- Real-time message indexing and navigation
+- Movable sidebar interface
+- Theme customization with multiple color schemes
+- Automatic detection of new messages
+- Direct message linking and navigation
+- Cross-platform compatibility with major LLM chat applications
 
-## How It Works
-The extension:
-1. Injects a sidebar into the page when you visit a supported LLM chat application
-2. Scans the page for existing chat messages and indexes them
-3. Watches for new messages as the conversation progresses and adds them to the index
-4. Provides clickable links that scroll directly to the selected message
+## Technical Implementation
+- Built as a Chrome extension using Manifest V3
+- Utilizes MutationObserver for real-time message detection
+- Implements drag-and-drop functionality for sidebar positioning
+- Features a modular theme system with CSS variables
+- Persists user preferences using Chrome Storage API
+
+## Supported Platforms
+- ChatGPT (chat.openai.com)
+- Claude (claude.ai)
+- Perplexity AI (perplexity.ai)
+- Other LLM chat applications using article-based message structure
 
 ## Installation
-1. Download the extension files
-2. In Chrome, go to `chrome://extensions/`
-3. Enable "Developer mode" in the top right
+1. Clone the repository
+2. Open Chrome and navigate to `chrome://extensions/`
+3. Enable Developer mode
 4. Click "Load unpacked" and select the extension directory
-5. The extension will automatically activate when you visit supported chat applications
+5. The extension will automatically activate on supported chat applications
 
-## Supported Applications
-Currently works with LLM chat applications that use the article element structure for conversation messages.
+## Usage
+1. Visit any supported LLM chat application
+2. The navigation sidebar will appear on the right side of the screen
+3. Click any indexed message to navigate directly to that point in the conversation
+4. Drag the sidebar to reposition it anywhere on the screen
+5. Use the extension popup to customize the theme
 
-## Customization
-You can customize the extension by modifying the appearance settings in the content.js file. Look for the styling section where you can adjust properties like position, size, and colors.
+## Development
+The extension consists of several key components:
+- `content.js`: Main extension logic and DOM manipulation
+- `popup.html/js`: Theme selection interface
+- `style.css`: Theme definitions and UI styling
+- `manifest.json`: Extension configuration and permissions
 
-## Future Improvements
-- Ability to rename/add notes to conversation entries
-- Search functionality within the sidebar
-- Collapsible sections for long conversations
-- User-configurable appearance settings
+## Future Enhancements
+- Message search functionality
+- Custom message annotations
+- Collapsible conversation sections
+- Enhanced theme customization options
+- Support for additional chat platforms
+
+## License
+[License information to be added]
+
+## Contributing
+[Contribution guidelines to be added]

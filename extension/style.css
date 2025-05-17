@@ -1,0 +1,162 @@
+/* Base styles and CSS variables for theming */
+:root {
+    /* Default theme variables */
+    --primary-color: #52ff5e;
+    --secondary-color: #FFCDD2;
+    --text-color: #FFFFFF;
+    --hover-color: rgba(255, 255, 255, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Theme classes with v0.dev-inspired adjustments */
+.theme-red {
+    --primary-color: #FF1744; /* Brighter, more vibrant red */
+    --secondary-color: #FF5252;
+    --text-color: #FFFFFF;
+}
+
+.theme-blue {
+    --primary-color: #2979FF; /* Vibrant techno blue */
+    --secondary-color: #448AFF;
+    --text-color: #FFFFFF;
+}
+
+.theme-pink {
+    --primary-color: #F50057; /* Bold, neon-like pink */
+    --secondary-color: #EC407A;
+    --text-color: #FFFFFF;
+}
+
+.theme-white {
+    --primary-color: #FAFAFA; /* Clean off-white */
+    --secondary-color: #EEEEEE;
+    --text-color: #212121; /* Dark text for contrast */
+}
+
+.theme-gray {
+    --primary-color: #757575; /* Modern muted gray */
+    --secondary-color: #BDBDBD;
+    --text-color: #FFFFFF;
+}
+
+.theme-dark {
+    --primary-color: #000000; /* Pure black for v0.dev dark vibe */
+    --secondary-color: #212121;
+    --text-color: #E0E0E0;
+}
+
+#chat.sidebar {
+    width: 200px;
+    min-height: 200px;
+    max-height: 80vh;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    z-index: 10000;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    border-radius: 8px;
+    overflow: auto;
+    display: block;
+    resize: both; /* Enables resizing in both directions */
+    min-width: 150px; /* Optional: Prevents it from becoming too narrow */
+}
+
+/* Table-specific styling with v0.dev touch */
+#chat.sidebar table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#chat.sidebar tr:nth-child(even) td {
+    background-color: rgba(255, 255, 255, 0.05); /* Zebra striping for readability */
+}
+
+#chat.sidebar td {
+    padding: 1px;
+    border-bottom: 1px solid var(--secondary-color);
+}
+
+#chat.sidebar a {
+    color: var(--text-color);
+    text-decoration: none;
+    display: block;
+    transition: all 0.2s ease;
+}
+
+#chat.sidebar a:hover {
+    background: var(--hover-color);
+    text-decoration: underline; /* Standard hover effect for v0.dev clarity */
+}
+
+/* Position the sidebar initially */
+#chat.sidebar {
+    right: 20px;
+    top: 20px;
+    left: auto;
+}
+
+/* Handle for dragging */
+.handle {
+    height: 20px;
+    background-color: var(--secondary-color);
+    cursor: move;
+    border-radius: 4px 4px 0 0;
+}
+
+/* Header styles */
+.header {
+    padding: 15px;
+    border-bottom: 1px solid var(--secondary-color);
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+/* Theme selector */
+.theme-selector {
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+
+/* Chat list */
+.chat-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.chat-entry {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 4px;
+    background-color: var(--secondary-color);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.chat-entry:hover {
+    background-color: var(--hover-color);
+}
+
+.chat-entry.active {
+    border-left: 3px solid var(--text-color);
+}
+
+
+/* Collapsed state */
+.sidebar.collapsed {
+    transform: translateX(calc(100% - 30px));
+}
+
