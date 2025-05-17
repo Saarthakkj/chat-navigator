@@ -1,34 +1,49 @@
+/*
+! TODO : 
+? 1.  configure for all llm chat applications - tchat , claude , openai , grok , perplexity , deepseek , etc
+// ? 2.  remove - timeout for first chat
+? 3. make it movable
+? 4. improve the design - and add feature for supporting multiple designs 
+*/
+
+
+//! error : chat_sidebar is removed after adding 
+
 // this file automatically calls when url matches with the given urls in manifest.json 
 // so can just insert a div element here 
 
 var index =1 ;
 var targetElement ;
 async function waitforelement(tagName){
-	console.log("classname : " , tagName); 
-	var flag = false;
+	// console.log("classname : " , tagName); 
+	// var flag = false;
 	var ele  ;
 	//classname = escapeClassName(classname);
 	try{
 		return new Promise((resolve ,reject ) => {
-			const startTime = Date.now();
+			var fncount = 0 ; 
+			//const startTime = Date.now();
 			const checkElements = () => {
-				ele = document.querySelector(tagName)
+				// console.log(` function count :  ${fncount} `);
+				fncount++; 
+				ele = document.querySelector(tagName);
 				if(ele){ele = ele.parentNode;}
-				console.log("ele : " , ele);
+				// console.log("ele : " , ele);
 				if(ele){
-					console.log("1 element ");
+					// console.log("1 element ");
 					resolve(ele);
 				}		
-				else if(Date.now() - startTime > 10000)  {
-					console.log("time out , more than 3 seconds passed");
-					resolve();
-				}else{
+				// else if(Date.now() - startTime > 10000)  {
+				// 	console.log("time out , more than 3 seconds passed");
+				// 	resolve();
+				//}
+				else{
 					console.log("calling checkelements again after 500ms");
 					setTimeout(checkElements , 500);
 				}
 			}
 			checkElements();
-			if(!ele) console.log(" ele ampty after checking leements");
+			// if(!ele) console.log(" ele ampty after checking leements");
 		} );
 	}catch(e){
 		console.error("error execxuting waitforelements : " , e );
@@ -36,22 +51,98 @@ async function waitforelement(tagName){
 }
 (async () => { 
 	targetElement = await waitforelement('article');
-	console.log("target : " , targetElement);
-	
+	// console.log("target : " , targetElement);
+
+
+	// ! moved inside async function to avoid race condition 	
+
+
+	//------------- Div creation for chat side bar  ---
+
+	var chat_sidebar = document.createElement("table"); 
+	chat_sidebar.id = "chat"; 
+	chat_sidebar.textContent = "side-bar for chat"
+	chat_sidebar.style.color = "black"
+	// --- positioning styles 
+	chat_sidebar.style.position = "fixed" ; 
+	chat_sidebar.style.height = "100px";
+	chat_sidebar.style.width = "300px";
+	chat_sidebar.style.right = "10px" ; 
+	chat_sidebar.style.top = "50px" ;
+	chat_sidebar.style.zIndex = "10" ; //high enough to be in top of other elements
+
+	chat_sidebar.style.backgroundColor = "grey" ; 
+	chat_sidebar.style.padding = "50px";
+	chat_sidebar.style.border = "10 solid black"  ;
+	// chat_sidebar.style.cursor = "move" ;
+
+	// Add dragging functionality
+	let isDragging = false;
+	let offsetX, offsetY;
+
+	chat_sidebar.addEventListener('mousedown', (e) => {
+		isDragging = true;
+		offsetX = e.clientX - chat_sidebar.getBoundingClientRect().left;
+		offsetY = e.clientY - chat_sidebar.getBoundingClientRect().top;
+		chat_sidebar.style.cursor = 'grabbing';
+		e.preventDefault();
+	});
+
+	document.addEventListener('mousemove', (e) => {
+		if (!isDragging) return;
+
+		// Calculate new position
+		let newX = e.clientX - offsetX;
+		let newY = e.clientY - offsetY;
+
+		// Keep the sidebar within window bounds
+		const maxX = window.innerWidth - chat_sidebar.offsetWidth;
+		const maxY = window.innerHeight - chat_sidebar.offsetHeight;
+		
+		newX = Math.min(Math.max(0, newX), maxX);
+		newY = Math.min(Math.max(0, newY), maxY);
+
+		chat_sidebar.style.left = `${newX}px`;
+		chat_sidebar.style.top = `${newY}px`;
+		chat_sidebar.style.right = 'auto'; // Remove right positioning when dragging
+	});
+
+	document.addEventListener('mouseup', () => {
+		if (isDragging) {
+			isDragging = false;
+			chat_sidebar.style.cursor = 'move';
+		}
+	});
+
+	// Prevent text selection while dragging
+	chat_sidebar.addEventListener('selectstart', (e) => {
+		if (isDragging) {
+			e.preventDefault();
+		}
+	});
+		
+
+	console.log("added chatside bar") ;
+	document.body.appendChild(chat_sidebar) ; 
+
 	//---------Synchrnously handling all the existing chats-----------
+	console.log(" handling existing chats "	);
 	const childnodeTraversal = targetElement.querySelectorAll("*");
 	childnodeTraversal.forEach( (chats) =>{
 		if(chats.className === "whitespace-pre-wrap"){
 			try{
 				chats.id = `index-${index}`
 				addRow(index + ". " + chats.innerHTML.substring(0, 12) , chats.id);	
-				console.log("cjats id : " , chats.id);
+				console.log(" chats id : " , chats.id);
 				index++;
 			}catch(e){
 				console.log("error adding id and passing it in addRow : " , e);
-			}
+			}	
 		}
 	});
+
+
+
 
 
 
@@ -89,8 +180,8 @@ function callback(mutationList , observer){
 						console.log("chat : " , chat);
 						if(chat.className === "whitespace-pre-wrap"){
 							console.log("chat text that matters : " , chat.innerHTML);
-							chats.id = `index-${index}`;
-							addRow(index + ". " + chat.innerHTML.slice(0 , 12) , chats.id);
+							chat.id = `index-${index}`;
+							addRow(index + ". " + chat.innerHTML.slice(0 , 12) , chat.id);
 							index++; 
 						}
 						//console.log("chat-text : " , chat.innerHTML );
@@ -113,33 +204,14 @@ function callback(mutationList , observer){
 
 			}*/
 
-		})
-
-	}
-}
-
+		}); 
+	};
+}; 
 
 
-//------------- Div creation for chat side bar (can run synchronously with content.js) ---
-
-var chat_sidebar = document.createElement("table"); 
-chat_sidebar.id = "chat"; 
-chat_sidebar.textContent = "side-bar for chat"
-chat_sidebar.style.color = "black"
-// --- positioning styles 
-chat_sidebar.style.position = "fixed" ; 
-chat_sidebar.style.height = "100px";
-chat_sidebar.style.width = "300px";
-chat_sidebar.style.right = "10px" ; 
-chat_sidebar.style.top = "50px" ;
-chat_sidebar.style.zIndex = "1000" ; //high enough to be in top of other elements
-
-chat_sidebar.style.backgroundColor = "grey" ; 
-chat_sidebar.style.padding = "50px";
-chat_sidebar.style.border = "100 solid black"  ;
 
 
-function addRow(rowData , id) {
+function addRow(rowData, id) {
 	const chat_sidebar = document.getElementById('chat') ;
 	if(chat_sidebar){
 		const newRow = chat_sidebar.insertRow();
@@ -156,50 +228,5 @@ function addRow(rowData , id) {
 	
 }
 
-let isDragging = false;
-let offsetX , offsetY ;
-
-/*
-// ----  mouse down : start dragging --- 
-
-chat_sidebar.addEventListener('mousedown' , (e) => {
-	isDragging = true ; 
-
-
-	offsetX = e.clientX - chat_sidebar.getBoundingClientRect().left ;
-	offsetY = e.clientY - chat_sidebar.getBoundingClientRect().top;
-
-	chat_sidebar.style.cursor = 'grabbing' ;
-	e.preventDefault();
-
-});
-
-document.addEventListener('mousemove' , (e) =>{
-	if(!isDragging) return ;
-
-	let newX = e.clientX - offsetX; 
-	let newY = e.clientY - offsetY ;
-
-	chat_sidebar.style.left = `${newX}px`;
-	chat_sidebar.style.top = `${newY}px`;
-});
-
-document.addEventListener('mouseup' , () => {
-	if(isDragging){
-		isDragging = false;
-
-		//restore teh original cursor 
-		chat_sidebar.style.cursor = 'move' ;
-	}
-});
-
-chat_sidebar.addEventListener('selectStart' , (e) =>{
-	e.preventDefault();
-});
-
-*/
-console.log("added chatside bar") ;
-document.body.appendChild(chat_sidebar) ; 
-// addRow("1. hello world"); --test function call 
 
 
