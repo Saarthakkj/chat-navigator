@@ -49,9 +49,9 @@ async function waitforelement(tagName) {
     // Add macOS controls inside header
     headerCell.innerHTML = `
         <div class="macos-controls">
-            <span class="close"></span>
-            <span class="minimize"></span>
-            <span class="maximize"></span>
+            <button class="close"></button>
+            <button class="minimize"></button>
+            <button class="maximize"></button>
         </div>
     `;
 
@@ -105,24 +105,61 @@ async function waitforelement(tagName) {
 
     document.body.appendChild(chat_sidebar);
 
-
-    //resizing using jQuery : 
-    $(function() {
-        $("#chat").resizable({
-            handles: "n, e, s, w, ne, se, sw, nw" // Resize from all edges and corners
-        });
+    const closeBtn = chat_sidebar.querySelector(".close");
+    const minimizeBtn = chat_sidebar.querySelector(".minimize");
+    const maximizeBtn = chat_sidebar.querySelector(".maximize");
+    
+    closeBtn.addEventListener("click", () => {
+        chat_sidebar.style.display = "none";
     });
-
-   
-    const resizeObsererver = new ResizeObserver(()=>{
-        const width = chat_sidebar.offsetWidth;
-        const height = chat_sidebar.offsetHeight;
-        const fontSize = Math.min(width, height) / 10;
-        chat_sidebar.style.fontSize = `${fontSize}px`;
+    minimizeBtn.addEventListener("click", () => {
+        chat_sidebar.classList.add("minimized");
+    });
+    maximizeBtn.addEventListener("click", () => {
+        chat_sidebar.classList.remove("minimized");
     }); 
 
-    resizeObsererver.observe(chat_sidebar);
 
+
+
+    //resizing using jQuery  (for table ; without that right bottom button): 
+    $(function() {
+        //! Set initial size before making resizable
+        chat_sidebar.style.width = '200px';  // Set a reasonable initial width
+        chat_sidebar.style.height = '300px'; // Set a reasonable initial height
+        
+        // Initialize resizable after a small delay
+        setTimeout(() => {
+            $("#chat").resizable({
+                handles: "n, e, s, w, ne, se, sw, nw"
+            });
+        }, 100);
+    });
+
+    // Set initial font size
+    chat_sidebar.style.fontSize = '1rem';
+    
+    // Add a small delay before starting the ResizeObserver
+    setTimeout(() => {
+        const resizeObserver = new ResizeObserver(() => {
+            const width = chat_sidebar.offsetWidth;
+            const height = chat_sidebar.offsetHeight;
+            const fontSize = Math.min(width, height) / 10;
+            //resize buttons of macos-controls  
+            const closeBtn = chat_sidebar.querySelector(".close");
+            const minimizeBtn = chat_sidebar.querySelector(".minimize");
+            const maximizeBtn = chat_sidebar.querySelector(".maximize");
+            closeBtn.style.width = `${fontSize}px/2`;
+            closeBtn.style.height = `${fontSize}px/2`;
+            minimizeBtn.style.width = `${fontSize}px/2`;
+            minimizeBtn.style.height = `${fontSize}px/2`;
+            maximizeBtn.style.width = `${fontSize}px/2`;
+            maximizeBtn.style.height = `${fontSize}px/2`;
+            chat_sidebar.style.fontSize = `${fontSize}px`;
+        });
+        
+        resizeObserver.observe(chat_sidebar);
+    }, 100);
 
     // Apply saved theme
     chrome.storage.sync.get('theme', function(data) {

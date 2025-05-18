@@ -1,191 +1,162 @@
 /* Base styles and CSS variables for theming */
 :root {
-    /* Default theme variables */
-    --primary-color: #52ff5e;
-    --secondary-color: #FFCDD2;
-    --text-color: #FFFFFF;
-    --hover-color: rgba(255, 255, 255, 0.1);
-    --shadow-color: rgba(0, 0, 0, 0.1);
+  /* Default theme variables */
+  --primary-color: #52ff5e;
+  --secondary-color: #ffcdd2;
+  --text-color: #ffffff;
+  --hover-color: rgba(255, 255, 255, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
 /* Theme classes with v0.dev-inspired adjustments */
 .theme-red {
-    --primary-color: #FF1744; /* Brighter, more vibrant red */
-    --secondary-color: #FF5252;
-    --text-color: #FFFFFF;
+  --primary-color: #ff1744; /* Brighter, more vibrant red */
+  --secondary-color: #ff5252;
+  --text-color: #ffffff;
 }
 
 .theme-blue {
-    --primary-color: #2979FF; /* Vibrant techno blue */
-    --secondary-color: #448AFF;
-    --text-color: #FFFFFF;
+  --primary-color: #2979ff; /* Vibrant techno blue */
+  --secondary-color: #448aff;
+  --text-color: #ffffff;
 }
 
 .theme-pink {
-    --primary-color: #F50057; /* Bold, neon-like pink */
-    --secondary-color: #EC407A;
-    --text-color: #FFFFFF;
+  --primary-color: #f50057; /* Bold, neon-like pink */
+  --secondary-color: #ec407a;
+  --text-color: #ffffff;
 }
 
 .theme-white {
-    --primary-color: #FAFAFA; /* Clean off-white */
-    --secondary-color: #EEEEEE;
-    --text-color: #212121; /* Dark text for contrast */
+  --primary-color: #fafafa; /* Clean off-white */
+  --secondary-color: #eeeeee;
+  --text-color: #212121; /* Dark text for contrast */
 }
 
 .theme-gray {
-    --primary-color: #757575; /* Modern muted gray */
-    --secondary-color: #BDBDBD;
-    --text-color: #FFFFFF;
+  --primary-color: #757575; /* Modern muted gray */
+  --secondary-color: #bdbdbd;
+  --text-color: #ffffff;
 }
 
 .theme-dark {
-    --primary-color: #000000; /* Pure black for v0.dev dark vibe */
-    --secondary-color: #212121;
-    --text-color: #E0E0E0;
+  --primary-color: #000000; /* Pure black for v0.dev dark vibe */
+  --secondary-color: #212121;
+  --text-color: #e0e0e0;
 }
 
 #chat.sidebar {
-    width: max-content ; 
-    min-width : max-content ;
-    min-height: max-content;
-    /* max-height: 50vh; */
-    background-color: var(--primary-color);
-    color: var(--text-color);
-    position: fixed;
-    right: 20px;
-    top: 20px;
-    z-index: 100;
-    box-shadow: 0 4px 12px var(--shadow-color);
-    border-radius: 8px;
-    /* overflow: auto; */
-    display: table;
-    resize: both; /* Enables resizing in both directions */
-    border-collapse: separate; /* Changed from collapse to separate */
-    border-spacing: 0;
-    font-size: 1em; /* Will be set dynamically */
+  width: max-content;
+  min-width: max-content;
+  min-height: max-content;
+  /* max-height: 50vh; */
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  z-index: 100;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  border-radius: 8px;
+  /* overflow: auto; */
+  display: table;
+  resize: both; /* Enables resizing in both directions */
+  border-collapse: separate; /* Changed from collapse to separate */
+  border-spacing: 0;
+  font-size: 5em; /* Will be set dynamically */
 }
 
 /* Table-specific styling with v0.dev touch */
 #chat.sidebar table {
-    width: 100%;
-    border-collapse: collapse;
-    background: rgba(255, 255, 255, 0.1);
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 #chat.sidebar tr:nth-child(even) td {
-    background-color: rgba(255, 255, 255, 0.05); /* Zebra striping for readability */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.05
+  ); /* Zebra striping for readability */
 }
 
 #chat.sidebar td {
-    padding: 0.5em;
-    border-bottom: 1px solid var(--secondary-color);
+  padding: 0.5em;
+  border-bottom: 1px solid var(--secondary-color);
 }
 
-#chat.sidebar a {
-    color: var(--text-color);
-    text-decoration: none;
-    display: block;
-    transition: all 0.2s ease;
-}
 
-#chat.sidebar a:hover {
-    background: var(--hover-color);
-    text-decoration: underline; /* Standard hover effect for v0.dev clarity */
-}
-
-/* Position the sidebar initially */
-#chat.sidebar {
-    right: 20px;
-    top: 20px;
-    left: auto;
-}
 /* 
 Handle for dragging */
-.handle {
-    height: 20px;
-    background-color: var(--secondary-color);
-    cursor: move;
-    border-radius: 4px 4px 0 0;
-}
+/* .handle {
+  height: 20px;
+  background-color: var(--secondary-color);
+  cursor: move;
+  border-radius: 4px 4px 0 0;
+} */
 
-/* Header styles */
+Header styles
 .header {
-    padding: 15px;
-    border-bottom: 1px solid var(--secondary-color);
+  padding: 15px;
+  border-bottom: 1px solid var(--secondary-color);
 }
 
 .header h1 {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 500;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
 }
 
 /* Theme selector */
 .theme-selector {
-    width: 100%;
-    padding: 8px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: var(--secondary-color);
-    color: var(--text-color);
-}
-
-
-/* Chat list */
-.chat-list {
-    flex: 1;
-    overflow-y: auto;
-    padding: 10px;
-}
-
-.chat-entry {
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 4px;
-    background-color: var(--secondary-color);
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.chat-entry:hover {
-    background-color: var(--hover-color);
-}
-
-.chat-entry.active {
-    border-left: 3px solid var(--text-color);
-}
-
-
-/* Collapsed state */
-.sidebar.collapsed {
-    transform: translateX(calc(100% - 30px));
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
 }
 
 .macos-controls {
-    display: flex;
-    gap: 8px;
-    padding: 8px;
-  }
-  .macos-controls span {
-    width: 12px; height: 12px; border-radius: 50%;
-    display: inline-block;
-  }
-  .close { background: #ff5f56; }
-  .minimize { background: #ffbd2e; }
-  .maximize { background: #27c93f; }
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+.macos-controls button {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  display: inline-block;
+}
+.close {
+  background: #ff5f56;
+}
+.minimize {
+  background: #ffbd2e;
+}
+.maximize {
+  background: #27c93f;
+}
 
-
-  #chat.sidebar.minimized {
-    height: 40px; /* Only header visible */
-    overflow: hidden;
-  }
+.minimized {
+  height: 40px !important; /* Only header visible */
+  min-height: 0 !important;
+  max-height: 40px !important;
+  overflow: hidden;
+}
 
 .sidebar-header {
-    padding: 8px;
-    cursor: move;
-    background-color: var(--secondary-color);
-    border-radius: 8px 8px 0 0;
-    user-select: none; /* Prevent text selection while dragging */
+  padding: 8px;
+  cursor: move;
+  background-color: var(--secondary-color);
+  border-radius: 8px 8px 0 0;
+  user-select: none; /* Prevent text selection while dragging */
+}
+
+
+#chat.sidebar.minimized tr:not(:first-child) {
+  display: none;
 }
