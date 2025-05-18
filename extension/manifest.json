@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Chat Navigtator",
   "version": "1.0",
-  "description": "Injects a custom div onto pages, accesses the page URL, and interacts with existing div elements.",
+  "description": "Helps you navigate through your chat history with ease.",
 
   "permissions": [
     "tabs",
@@ -17,7 +17,8 @@
        "https://chat.openai.com/*",
        "https://chatgpt.com/*",
        "https://claude.ai/*",
-       "https://*.perplexity.ai/*"
+       "https://*.perplexity.ai/*" , 
+       "https://t3.chat/*"
      ],
      "css": ["style.css" , "jquery-ui.min.css"],
       "js": [
