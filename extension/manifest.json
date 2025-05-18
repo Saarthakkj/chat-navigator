@@ -19,8 +19,12 @@
        "https://claude.ai/*",
        "https://*.perplexity.ai/*"
      ],
-     "css": ["style.css"],
-      "js": ["content.js"],
+     "css": ["style.css" , "jquery-ui.min.css"],
+      "js": [
+          "jquery-3.7.1.min.js",
+          "jquery-ui.min.js",
+          "content.js"
+        ],
       "run_at": "document_idle"
     }
   ],

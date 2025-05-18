@@ -46,21 +46,24 @@
 }
 
 #chat.sidebar {
-    width: 200px;
-    min-height: 200px;
-    max-height: 80vh;
+    width: max-content ; 
+    min-width : max-content ;
+    min-height: max-content;
+    /* max-height: 50vh; */
     background-color: var(--primary-color);
     color: var(--text-color);
     position: fixed;
     right: 20px;
     top: 20px;
-    z-index: 10000;
+    z-index: 100;
     box-shadow: 0 4px 12px var(--shadow-color);
     border-radius: 8px;
-    overflow: auto;
-    display: block;
+    /* overflow: auto; */
+    display: table;
     resize: both; /* Enables resizing in both directions */
-    min-width: 150px; /* Optional: Prevents it from becoming too narrow */
+    border-collapse: separate; /* Changed from collapse to separate */
+    border-spacing: 0;
+    font-size: 1em; /* Will be set dynamically */
 }
 
 /* Table-specific styling with v0.dev touch */
@@ -75,7 +78,7 @@
 }
 
 #chat.sidebar td {
-    padding: 1px;
+    padding: 0.5em;
     border-bottom: 1px solid var(--secondary-color);
 }
 
@@ -97,8 +100,8 @@
     top: 20px;
     left: auto;
 }
-
-/* Handle for dragging */
+/* 
+Handle for dragging */
 .handle {
     height: 20px;
     background-color: var(--secondary-color);
@@ -160,3 +163,29 @@
     transform: translateX(calc(100% - 30px));
 }
 
+.macos-controls {
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+  }
+  .macos-controls span {
+    width: 12px; height: 12px; border-radius: 50%;
+    display: inline-block;
+  }
+  .close { background: #ff5f56; }
+  .minimize { background: #ffbd2e; }
+  .maximize { background: #27c93f; }
+
+
+  #chat.sidebar.minimized {
+    height: 40px; /* Only header visible */
+    overflow: hidden;
+  }
+
+.sidebar-header {
+    padding: 8px;
+    cursor: move;
+    background-color: var(--secondary-color);
+    border-radius: 8px 8px 0 0;
+    user-select: none; /* Prevent text selection while dragging */
+}

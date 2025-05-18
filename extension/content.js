@@ -39,46 +39,90 @@ async function waitforelement(tagName) {
     chat_sidebar = document.createElement("table");
     chat_sidebar.id = "chat";
     chat_sidebar.className = 'sidebar'; // Set base class for styling
+    chat_sidebar.style.position = 'absolute'; // for dragging : https://www.w3schools.com/howto/howto_js_draggable.asp
 
-    // Add dragging functionality
-    let isDragging = false;
-    let offsetX, offsetY;
+    // Create header row for dragging
+    const headerRow = document.createElement("tr");
+    const headerCell = document.createElement("td");
+    headerCell.className = "sidebar-header";
 
-    // document.querySelector("#chat.sidebar .handle").addEventListener("mousedown", startDragging);
+    // Add macOS controls inside header
+    headerCell.innerHTML = `
+        <div class="macos-controls">
+            <span class="close"></span>
+            <span class="minimize"></span>
+            <span class="maximize"></span>
+        </div>
+    `;
 
-    chat_sidebar.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        offsetX = e.clientX - chat_sidebar.getBoundingClientRect().left;
-        offsetY = e.clientY - chat_sidebar.getBoundingClientRect().top;
-        chat_sidebar.style.cursor = 'grabbing';
-        e.preventDefault();
-    });
+    headerCell.colSpan = 1; 
 
-    document.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        let newX = e.clientX - offsetX;
-        let newY = e.clientY - offsetY;
-        const maxX = window.innerWidth - chat_sidebar.offsetWidth;
-        const maxY = window.innerHeight - chat_sidebar.offsetHeight;
-        newX = Math.min(Math.max(0, newX), maxX);
-        newY = Math.min(Math.max(0, newY), maxY);
-        chat_sidebar.style.left = `${newX}px`;
-        chat_sidebar.style.top = `${newY}px`;
-        chat_sidebar.style.right = 'auto';
-    });
+    headerRow.appendChild(headerCell);
+    chat_sidebar.appendChild(headerRow);
 
-    document.addEventListener('mouseup', () => {
-        if (isDragging) {
-            isDragging = false;
-            chat_sidebar.style.cursor = 'move';
+    // Make the entire sidebar draggable by its header
+    dragElement(chat_sidebar);
+
+    function dragElement(elmnt) {
+        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        const header = elmnt.querySelector('.sidebar-header');
+        
+        if (header) {
+            header.onmousedown = dragMouseDown;
+        } else {
+            elmnt.onmousedown = dragMouseDown;
+        }   
+
+        function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // get the mouse cursor position at startup:
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            // call a function whenever the cursor moves:
+            document.onmousemove = elementDrag;
         }
-    });
+    
+    
+        function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // calculate the new cursor position:
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+        }
 
-    chat_sidebar.addEventListener('selectstart', (e) => {
-        if (isDragging) e.preventDefault();
-    });
+        function closeDragElement() {
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    }
 
     document.body.appendChild(chat_sidebar);
+
+
+    //resizing using jQuery : 
+    $(function() {
+        $("#chat").resizable({
+            handles: "n, e, s, w, ne, se, sw, nw" // Resize from all edges and corners
+        });
+    });
+
+   
+    const resizeObsererver = new ResizeObserver(()=>{
+        const width = chat_sidebar.offsetWidth;
+        const height = chat_sidebar.offsetHeight;
+        const fontSize = Math.min(width, height) / 10;
+        chat_sidebar.style.fontSize = `${fontSize}px`;
+    }); 
+
+    resizeObsererver.observe(chat_sidebar);
+
 
     // Apply saved theme
     chrome.storage.sync.get('theme', function(data) {
