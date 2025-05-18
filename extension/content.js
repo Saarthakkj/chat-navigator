@@ -125,8 +125,8 @@ async function waitforelement(tagName) {
     //resizing using jQuery  (for table ; without that right bottom button): 
     $(function() {
         //! Set initial size before making resizable
-        chat_sidebar.style.width = '200px';  // Set a reasonable initial width
-        chat_sidebar.style.height = '300px'; // Set a reasonable initial height
+        chat_sidebar.style.width = '160px';  // Set a reasonable initial width
+        chat_sidebar.style.height = '220px'; // Set a reasonable initial height
         
         // Initialize resizable after a small delay
         setTimeout(() => {
@@ -149,12 +149,12 @@ async function waitforelement(tagName) {
             const closeBtn = chat_sidebar.querySelector(".close");
             const minimizeBtn = chat_sidebar.querySelector(".minimize");
             const maximizeBtn = chat_sidebar.querySelector(".maximize");
-            closeBtn.style.width = `${fontSize}px/2`;
-            closeBtn.style.height = `${fontSize}px/2`;
-            minimizeBtn.style.width = `${fontSize}px/2`;
-            minimizeBtn.style.height = `${fontSize}px/2`;
-            maximizeBtn.style.width = `${fontSize}px/2`;
-            maximizeBtn.style.height = `${fontSize}px/2`;
+            closeBtn.style.width = `${fontSize}px/4`;
+            closeBtn.style.height = `${fontSize}px/4`;
+            minimizeBtn.style.width = `${fontSize}px/4`;
+            minimizeBtn.style.height = `${fontSize}px/4`;
+            maximizeBtn.style.width = `${fontSize}px/4`;
+            maximizeBtn.style.height = `${fontSize}px/4`;
             chat_sidebar.style.fontSize = `${fontSize}px`;
         });
         
@@ -174,7 +174,7 @@ async function waitforelement(tagName) {
         if (chats.className === "whitespace-pre-wrap") {
             try {
                 chats.id = `index-${index}`;
-                addRow(index + ". " + chats.innerHTML.substring(0, 12), chats.id);
+                addRow(index + ". " + chats.innerHTML.substring(0, 14), chats.id);
                 index++;
             } catch (e) {
                 console.log("Error adding id and passing it in addRow:", e);
