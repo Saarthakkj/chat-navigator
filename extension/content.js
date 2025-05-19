@@ -1,5 +1,5 @@
 //! TODO : 
-//! 1. Fix the initial random animation
+//! 1. Fix the initial random animation [done]
 //! 2. Make it support all websites 
 
 //? claudes-chat-element :  *</div></div><div class="absolute bottom-0 right-2 pointer-events-none" style="transform: none;"><div class="rounded-lg transition min-w-max pointer-events-auto translate-y-4 bg-bg-300/90 backdrop-blur-sm translate-x-1 group-hover:translate-x-0.5 border-0.5 border-border-300 p-0.5 shadow-sm opacity-0 group-hover:opacity-100"><div class="text-text-300 flex items-stretch justify-between"><button class="flex flex-row items-center gap-1.5 rounded-md p-2 text-sm transition text-text-300 active:scale-95 select-auto hover:bg-bg-500 py-1" data-state="closed">Edit</button><div class="flex items-center gap-0.5"></div></div></div></div></div></div></div>/
