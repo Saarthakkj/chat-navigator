@@ -20,9 +20,7 @@ Chat Navigator is a browser extension designed to enhance the user experience of
 
 ## Supported Platforms
 - ChatGPT (chat.openai.com)
-- Claude (claude.ai)
 - Perplexity AI (perplexity.ai)
-- Other LLM chat applications using article-based message structure
 
 ## Installation
 1. Clone the repository
@@ -48,12 +46,18 @@ The extension consists of several key components:
 ## Future Enhancements
 - Message search functionality
 - Custom message annotations
-- Collapsible conversation sections
-- Enhanced theme customization options
 - Support for additional chat platforms
 
 ## License
-[License information to be added]
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contributing
-[Contribution guidelines to be added]
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+Please make sure to update tests as appropriate and follow the existing code style.
