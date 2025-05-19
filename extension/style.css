@@ -149,6 +149,7 @@ Header styles
 }
 
 .sidebar-header {
+  max-height: 90px;
   padding: 8px;
   cursor: move;
   background-color: var(--secondary-color);

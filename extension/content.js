@@ -1,3 +1,9 @@
+//! TODO : 
+//! 1. Fix the initial random animation
+//! 2. Make it support all websites 
+
+//? claudes-chat-element :  *</div></div><div class="absolute bottom-0 right-2 pointer-events-none" style="transform: none;"><div class="rounded-lg transition min-w-max pointer-events-auto translate-y-4 bg-bg-300/90 backdrop-blur-sm translate-x-1 group-hover:translate-x-0.5 border-0.5 border-border-300 p-0.5 shadow-sm opacity-0 group-hover:opacity-100"><div class="text-text-300 flex items-stretch justify-between"><button class="flex flex-row items-center gap-1.5 rounded-md p-2 text-sm transition text-text-300 active:scale-95 select-auto hover:bg-bg-500 py-1" data-state="closed">Edit</button><div class="flex items-center gap-0.5"></div></div></div></div></div></div></div>/
+
 console.log("[Content] content.js loaded");
 
 // Global variable for chat sidebar
@@ -186,52 +192,37 @@ async function setupChatSidebar() {
             console.log("[Content] Chat sidebar maximized");
         });
 
-        //resizing using jQuery  (for table ; without that right bottom button): 
+        // Create sidebar with initial dimensions
+        chat_sidebar.style.fontSize = '1rem';
+        const row_len = chat_sidebar.rows.length;
+        chat_sidebar.style.height = `${row_len * 50}px`;
+        chat_sidebar.style.width = '160px';
+
+        // Setup jQuery resizable
         $(function() {
-            chat_sidebar.style.width = '160px';
-            chat_sidebar.style.height = '220px';
-            
-            // Initialize resizable after a small delay
-            setTimeout(() => {
-                $("#chat").resizable({
-                    handles: "n, e, s, w, ne, se, sw, nw"
-                });
-                console.log("[Content] Chat sidebar made resizable");
-            }, 100);
+            $("#chat").resizable({
+                handles: "n, e, s, w, ne, se, sw, nw",
+                start: function() {
+                    // Enable ResizeObserver only when user starts resizing
+                    resizeObserver.observe(chat_sidebar);
+                },
+                stop: function() {
+                    // Optionally disconnect when done resizing
+                    resizeObserver.disconnect();
+                }
+            });
         });
 
-        // Set initial font size
-        chat_sidebar.style.fontSize = '1rem';
-        
-        // Add a small delay before starting the ResizeObserver
-        setTimeout(() => {
-            const resizeObserver = new ResizeObserver(() => {
-                if (!chat_sidebar) return; // Guard against removed sidebar
-                const width = chat_sidebar.offsetWidth;
-                const height = chat_sidebar.offsetHeight;
-                const fontSize = Math.min(width, height) / 12;
-                //resize buttons of macos-controls  
-                const closeBtn = chat_sidebar.querySelector(".close");
-                const minimizeBtn = chat_sidebar.querySelector(".minimize");
-                const maximizeBtn = chat_sidebar.querySelector(".maximize");
-                
-                if(closeBtn && minimizeBtn && maximizeBtn) {
-                    closeBtn.style.width = `${fontSize}px/4`;
-                    closeBtn.style.height = `${fontSize}px/4`;
-                    minimizeBtn.style.width = `${fontSize}px/4`;
-                    minimizeBtn.style.height = `${fontSize}px/4`;
-                    maximizeBtn.style.width = `${fontSize}px/4`;
-                    maximizeBtn.style.height = `${fontSize}px/4`;
-                }
-                
-                chat_sidebar.style.fontSize = `${fontSize}px`;
-            });
-            
-            resizeObserver.observe(chat_sidebar);
-            console.log("[Content] ResizeObserver initialized for chat_sidebar");
-        }, 100);
+        // Create but don't connect the observer initially
+        const resizeObserver = new ResizeObserver(() => {
+            if (!chat_sidebar) return;
+            const width = chat_sidebar.offsetWidth;
+            const height = chat_sidebar.offsetHeight;
+            const fontSize = Math.min(width, height) / 10;
+            chat_sidebar.style.fontSize = `${fontSize}px`;
+        });
 
-        // Apply saved theme
+        // Apply theme first without triggering resize observer
         chrome.storage.sync.get('theme', function(data) {
             const theme = data.theme || 'red';
             applyTheme(theme);
