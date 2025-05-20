@@ -10,15 +10,20 @@
   ],
 
   "host_permissions": [
-   "https://*.google.com/*" ],
+   "https://*.google.com/*",
+   "https://gemini.google.com/*",
+   "https://grok.com/*"
+  ],
   "content_scripts": [
     {
      "matches": [
        "https://chat.openai.com/*",
        "https://chatgpt.com/*",
        "https://claude.ai/*",
-       "https://*.perplexity.ai/*" , 
-       "https://t3.chat/*"
+       "https://*.perplexity.ai/*",
+       "https://t3.chat/*",
+       "https://gemini.google.com/*",
+       "https://grok.com/*"
      ],
      "css": ["style.css" , "jquery-ui.min.css"],
       "js": [

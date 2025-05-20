@@ -6,6 +6,7 @@
   --text-color: #ffffff;
   --hover-color: rgba(255, 255, 255, 0.1);
   --shadow-color: rgba(0, 0, 0, 0.1);
+  --primary-color-rgb: 82, 255, 94;
 }
 
 /* Theme classes with v0.dev-inspired adjustments */
@@ -13,57 +14,181 @@
   --primary-color: #ff1744; /* Brighter, more vibrant red */
   --secondary-color: #ff5252;
   --text-color: #ffffff;
+  --primary-color-rgb: 255, 23, 68;
 }
 
 .theme-blue {
   --primary-color: #2979ff; /* Vibrant techno blue */
   --secondary-color: #448aff;
   --text-color: #ffffff;
+  --primary-color-rgb: 41, 121, 255;
 }
 
 .theme-pink {
   --primary-color: #f50057; /* Bold, neon-like pink */
   --secondary-color: #ec407a;
   --text-color: #ffffff;
+  --primary-color-rgb: 245, 0, 87;
 }
 
 .theme-white {
   --primary-color: #fafafa; /* Clean off-white */
   --secondary-color: #eeeeee;
   --text-color: #212121; /* Dark text for contrast */
+  --primary-color-rgb: 250, 250, 250;
 }
 
 .theme-gray {
   --primary-color: #757575; /* Modern muted gray */
   --secondary-color: #bdbdbd;
   --text-color: #ffffff;
+  --primary-color-rgb: 117, 117, 117;
 }
 
 .theme-dark {
   --primary-color: #000000; /* Pure black for v0.dev dark vibe */
   --secondary-color: #212121;
   --text-color: #e0e0e0;
+  --primary-color-rgb: 0, 0, 0;
 }
 
+/* Navigator Bar Styles */
+.navigator-bar {
+  position: fixed;
+  right: 10px;
+  top: 20%;
+  width: 8px;
+  max-height: 60vh;
+  background-color: var(--primary-color);
+  border-radius: 4px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px;
+  box-shadow: 0 2px 10px var(--shadow-color);
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+/* Expanded state for navigator bar */
+.navigator-bar.expanded {
+  width: 220px;
+  background-color: var(--primary-color);
+  border-radius: 6px;
+  padding: 8px 4px;
+}
+
+/* Header for the navigator bar */
+.nav-header {
+  display: none;
+  padding: 4px 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--secondary-color);
+}
+
+.navigator-bar.expanded .nav-header {
+  display: block;
+}
+
+.nav-title {
+  color: var(--text-color);
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* Nav items */
+.nav-item {
+  height: 8px;
+  width: 100%;
+  background-color: var(--secondary-color);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  margin: 2px 0;
+}
+
+.navigator-bar.expanded .nav-item {
+  height: auto;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  padding: 6px 4px;
+}
+
+.navigator-bar.expanded .nav-item:hover,
+.navigator-bar.expanded .nav-item.active {
+  background-color: var(--secondary-color);
+}
+
+.nav-item-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.nav-item:hover {
+  transform: scaleX(1.2);
+  background-color: var(--text-color);
+}
+
+.navigator-bar.expanded .nav-item:hover {
+  transform: none;
+  background-color: var(--secondary-color);
+}
+
+/* Nav item text only shows on expanded */
+.nav-item-text {
+  display: none;
+  color: var(--text-color);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 4px;
+}
+
+.navigator-bar.expanded .nav-item-text {
+  display: block;
+  max-width: 200px;
+}
+
+/* Active state for nav items */
+.nav-item.active {
+  background-color: var(--text-color);
+}
+
+.navigator-bar.expanded .nav-item.active {
+  background-color: var(--secondary-color);
+  font-weight: bold;
+}
+
+.navigator-bar.expanded .nav-item.active .nav-item-text {
+  font-weight: bold;
+}
+
+/* Expanded Sidebar Styles */
 #chat.sidebar {
   width: max-content;
-  min-width: max-content;
+  min-width: 200px;
   min-height: max-content;
-  /* max-height: 50vh; */
+  max-height: 60vh;
   background-color: var(--primary-color);
   color: var(--text-color);
   position: fixed;
-  right: 20px;
-  top: 20px;
-  z-index: 100;
+  z-index: 9999;
   box-shadow: 0 4px 12px var(--shadow-color);
   border-radius: 8px;
-  /* overflow: auto; */
+  overflow: auto;
   display: table;
   resize: both; /* Enables resizing in both directions */
   border-collapse: separate; /* Changed from collapse to separate */
   border-spacing: 0;
-  font-size: 5em; /* Will be set dynamically */
+  font-size: 14px;
+  transition: opacity 0.3s ease;
 }
 
 /* Table-specific styling with v0.dev touch */
@@ -74,12 +199,7 @@
 }
 
 #chat.sidebar tr:nth-child(even) td {
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.05
-  ); /* Zebra striping for readability */
+  background-color: rgba(255, 255, 255, 0.05); /* Zebra striping for readability */
 }
 
 #chat.sidebar td {
@@ -87,37 +207,52 @@
   border-bottom: 1px solid var(--secondary-color);
 }
 
-
-/* 
-Handle for dragging */
-/* .handle {
-  height: 20px;
-  background-color: var(--secondary-color);
-  cursor: move;
-  border-radius: 4px 4px 0 0;
-} */
-
-Header styles
-.header {
-  padding: 15px;
-  border-bottom: 1px solid var(--secondary-color);
-}
-
-.header h1 {
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: 500;
-}
-
-/* Theme selector */
-.theme-selector {
-  width: 100%;
-  padding: 8px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 4px;
-  background-color: var(--secondary-color);
+#chat.sidebar td a {
   color: var(--text-color);
+  text-decoration: none;
+  display: block;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+#chat.sidebar td a:hover {
+  background-color: var(--secondary-color);
+}
+
+/* Message tooltip */
+.message-tooltip {
+  position: fixed;
+  max-width: 300px;
+  padding: 10px;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border-radius: 6px;
+  z-index: 10000;
+  display: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Message highlight effect - improved */
+.highlight-message {
+  animation: highlight-pulse 2s ease-in-out;
+  position: relative;
+  outline: 2px solid var(--primary-color);
+  box-shadow: 0 0 10px var(--primary-color);
+}
+
+@keyframes highlight-pulse {
+  0%, 100% {
+    background-color: transparent;
+    outline-color: transparent;
+  }
+  50% {
+    background-color: rgba(var(--primary-color-rgb, 255, 23, 68), 0.2);
+    outline-color: var(--primary-color);
+  }
 }
 
 .macos-controls {
@@ -156,7 +291,6 @@ Header styles
   border-radius: 8px 8px 0 0;
   user-select: none; /* Prevent text selection while dragging */
 }
-
 
 #chat.sidebar.minimized tr:not(:first-child) {
   display: none;
